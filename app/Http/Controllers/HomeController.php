@@ -45,12 +45,35 @@ $kategori = DB::table('product_categories')
     ->pluck('category_name');
 // dd($kategori);
 
-$produk = DB::table('products')
+$sport = DB::table('products')
 ->join('product_categories', 'products.category_id', '=', 'product_categories.id')
-->select(DB::raw('count(*) as product_count, category_name'))
-->groupBy('category_name')
-->get();
-// dd($produk);
+->where('category_name', '=', 'Sport')
+->count();
+// dd($sport);
+
+$daily = DB::table('products')
+->join('product_categories', 'products.category_id', '=', 'product_categories.id')
+->where('category_name', '=', 'Daily')
+->count();
+// dd($daily);
+
+$acc = DB::table('products')
+->join('product_categories', 'products.category_id', '=', 'product_categories.id')
+->where('category_name', '=', 'Accessoris')
+->count();
+
+$casual = DB::table('products')
+->join('product_categories', 'products.category_id', '=', 'product_categories.id')
+->where('category_name', '=', 'Casual')
+->count();
+// dd($casual);
+
+// $sport = $produk->where('category_name', '=', 'Sport');
+// // dd($sport);
+// $daily = $produk->where('category_name', '=', 'Daily');
+// $acc = $produk->where('category_name', '=', 'Accessoris');
+// $casual = $produk->where('category_name', '=', 'Casual');
+// // dd($casual);
 
 $sum_harga = Product::join('product_categories', 'products.category_id', '=', 'product_categories.id')
 ->select(DB::raw('SUM(price) as harga, category_name'))
@@ -64,7 +87,7 @@ $sum_stok = Product::join('product_categories', 'products.category_id', '=', 'pr
 ->get();
 // dd($sum_stok);
 
-return view('pages.dashboard', compact('total_produk', 'total_harga', 'total_stok', 'kategori', 'produk', 'sum_harga', 'sum_stok'), ['products' => $products, 'category' => $category,
+return view('pages.dashboard', compact('total_produk', 'total_harga', 'total_stok', 'kategori','sum_harga', 'sum_stok', 'sport', 'daily', 'acc', 'casual'), ['products' => $products, 'category' => $category,
     'total_harga_produk' => $total_harga_produk, 'stok_produk' => $stok_produk]);
     }
 

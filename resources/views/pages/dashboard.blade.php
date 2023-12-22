@@ -204,7 +204,10 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 
 <script type="text/javascript">
-    var pro = @json($total_produk);
+    var sport = @json($sport);
+    var daily = @json($daily);
+    var acc = @json($acc);
+    var casual = @json($casual);
     document.addEventListener('DOMContentLoaded', function () {
         Highcharts.chart('chart-pie', {
         chart: {
@@ -213,20 +216,54 @@ document.addEventListener('DOMContentLoaded', function () {
         title: {
             text: 'Total Produk Per Kategori',
         },
+        tooltip: {
+            valueSuffix: '%'
+        },
         plotOptions: {
-            pie: {
-            allowPointSelect: true,
-            cursor: 'pointer',
-            dataLabels: {
-                enabled: true,
-                format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-            },
-            },
+            series: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: [{
+                    enabled: true,
+                    distance: 20
+                }, {
+                    enabled: true,
+                    distance: -40,
+                    format: '{point.percentage:.1f}%',
+                    style: {
+                        fontSize: '1.2em',
+                        textOutline: 'none',
+                        opacity: 0.7
+                    },
+                    filter: {
+                        operator: '>',
+                        property: 'percentage',
+                        value: 10
+                    }
+                }]
+            }
         },
         series: [{
             name: 'Total Produk',
             colorByPoint: true,
-            data: pro
+            data: [
+                {
+                    name: 'Sport',
+                    y: sport
+                },
+                {
+                    name: 'Daily',
+                    y: daily
+                },
+                {
+                    name: 'Accessoris',
+                    y: acc
+                },
+                {
+                    name: 'Casual',
+                    y: casual
+                }
+            ]
         }],
         });
    });
